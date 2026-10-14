@@ -15,16 +15,29 @@ corrections before a significant revisit of this subsystem.
 
 ## Corrections
 
-- **Q.704:** the ITU index lists a covering note dated **17.09.99**, described
-  as an English-only erratum. **ERRATUM-PENDING** — its text and applicability
-  remain under review; the correction's status will be filled in separately.
+- **Q.704:** the
+  [Implementers' Guide for Q.704 (07/96)](https://www.itu.int/rec/T-REC-Q.Imp704/en)
+  has three editions, 03/99, 12/99 and 12/00, all listed as in force. The 12/00
+  edition states that it incorporates the 12/99 edition, which incorporated the
+  03/99 one. It allocates further service indicators, adds a service indicator
+  extension (service indicator 1111 extends the routing label by two octets,
+  leaving room for a later point-code extension that it does not define),
+  clarifies link set emergency restart, rewords clause 15.2 and corrects SDL
+  figures. It does not change the 14-bit point code of §2.2.3 or anything this
+  package implements.
+- **Q.704:** the ITU index also lists a covering note dated **17.09.99**,
+  described as an English-only erratum. ITU offers no document for it: the
+  index, the 07/96 edition page, the newer Q.704 recommendation record, the
+  Study Group 11 report archive and ITU's search were checked on 2026-10-14
+  without finding one. Its content could therefore not be reviewed. The 12/00
+  Implementers' Guide, which postdates it, reports corrections of editorial
+  errors in the SDL and text.
 - **Q.708:** no correction or erratum is listed on its recommendation index
   or edition page as checked on 2026-10-14. This is a statement about those
   pages, not a claim that no other published clarification exists.
 
 No complete implementation of either Recommendation is claimed. The package
-implements code representation and presentation, with the correction review
-above still pending. It does not implement assignment administration, MTP3
+implements code representation and presentation. It does not implement assignment administration, MTP3
 signalling functions, a routing-label codec, or a network-indicator type.
 
 ## Clause-to-code map

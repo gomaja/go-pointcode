@@ -7,7 +7,7 @@ layouts. Standard library only; requires Go 1.26 or later.
 The international format implements ITU-T **Q.704 (07/96)** §2.2.3 and
 **Q.708 (03/99)** §§3.4, 5.1. ITU lists both editions as in force, checked
 2026-10-14. See [STANDARDS.md](STANDARDS.md) for sources, scope and corrections,
-including the pending Q.704 covering-note review.
+including the Q.704 Implementers' Guide.
 
 ## Install
 
