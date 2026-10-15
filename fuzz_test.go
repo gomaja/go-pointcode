@@ -169,3 +169,29 @@ func FuzzLayoutParseFormat(f *testing.F) {
 		}
 	})
 }
+
+func FuzzParseNetworkIndicator(f *testing.F) {
+	for _, s := range []string{"international", "international-spare", "national", "national-reserved", "", "National", "00", "2", "national ", "international-spare\x00", "invalid NetworkIndicator(4)"} {
+		f.Add(s)
+	}
+	f.Fuzz(func(t *testing.T, s string) {
+		ni, err := pointcode.ParseNetworkIndicator(s)
+		if err != nil {
+			if !errors.Is(err, pointcode.ErrSyntax) || ni != 0 {
+				t.Fatalf("failed parse = %d, %v", ni, err)
+			}
+			return
+		}
+		if !ni.Valid() || ni.String() != s {
+			t.Fatalf("accepted noncanonical text %q as %d (%q)", s, ni, ni.String())
+		}
+		text, err := ni.MarshalText()
+		if err != nil || string(text) != s {
+			t.Fatalf("marshal = %q, %v", text, err)
+		}
+		var decoded pointcode.NetworkIndicator
+		if err := decoded.UnmarshalText(text); err != nil || decoded != ni {
+			t.Fatalf("unmarshal = %d, %v", decoded, err)
+		}
+	})
+}
