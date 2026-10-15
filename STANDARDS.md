@@ -1,7 +1,7 @@
 # Standards and scope
 
 Publication status checked against ITU's recommendation indexes and edition
-pages on **2026-10-14**. These are ITU-T Recommendations; RFC Editor and IETF
+pages on **2026-10-15**. These are ITU-T Recommendations; RFC Editor and IETF
 Datatracker relationship checks do not establish their status.
 
 | Document | Edition | ITU status | Authority |
@@ -23,8 +23,9 @@ corrections before a significant revisit of this subsystem.
   extension (service indicator 1111 extends the routing label by two octets,
   leaving room for a later point-code extension that it does not define),
   clarifies link set emergency restart, rewords clause 15.2 and corrects SDL
-  figures. It does not change the 14-bit point code of §2.2.3 or anything this
-  package implements.
+  figures. It replaces §14.2.1, the service indicator. It does not change the
+  network indicator of §14.2.2, the 14-bit point code of §2.2.3 or anything
+  else this package implements.
 - **Q.704:** the ITU index also lists a covering note dated **17.09.99**,
   described as an English-only erratum. ITU offers no document for it: the
   index, the 07/96 edition page, the newer Q.704 recommendation record, the
@@ -37,8 +38,9 @@ corrections before a significant revisit of this subsystem.
   pages, not a claim that no other published clarification exists.
 
 No complete implementation of either Recommendation is claimed. The package
-implements code representation and presentation. It does not implement assignment administration, MTP3
-signalling functions, a routing-label codec, or a network-indicator type.
+implements the representation and presentation of point codes and of the
+network indicator. It does not implement assignment administration, MTP3
+signalling functions, or a routing-label or service information octet codec.
 
 ## Clause-to-code map
 
@@ -46,7 +48,8 @@ signalling functions, a routing-label codec, or a network-indicator type.
 | --- | --- | --- |
 | Q.704 §2.2.3, Figure 3 | DPC/OPC pure binary; 14-bit international code fields | `ISPC`, `MaxISPC`, checked numeric conversion in `doc.go` and `examples/pc-conv`; literal vectors and exhaustive `TestAllISPCs` |
 | Q.704 §2.2.1 NOTE; §2.2.6 | Modified national labels may have other sub-field sizes | `Layout`, `ParseLayout`, `Format`, `Parse`; `TestLayoutVectors`, `TestLayoutAllFieldWidths` |
-| Q.704 §2.4.3; §14.2.2 | Network indicator distinguishes numbering schemes; 00 is international | `doc.go`, README; the caller supplies network context |
+| Q.704 §14.2.2 | Four codes, bits D-C of the sub-service field | `NetworkIndicator`, its constants, `ParseNetworkIndicator`, `Valid`, `String`, text marshaling; `TestNetworkIndicatorCodes`, `TestAllNetworkIndicators`, `FuzzParseNetworkIndicator` |
+| Q.704 §2.4.3; Q.708 §§1, 3.4 | Network indicator selects the numbering; ISPC with NI=00 | `NetworkIndicator` and `ISPC` documentation, README |
 | Q.708 §3.3; §3.4 | SPC identifies a signalling point; ISPC is a unique 14-bit format used with NI=00 | Package documentation and `ISPC`; `TestISPCVectors`, `TestInvalidValues` |
 | Q.708 §5.1, Figure 1 | NML: 3 bits; K-D: 8 bits; CBA: 3 bits; three decimal numbers, e.g. 2-068-1 | `NewISPC`, `ParseISPC`, field accessors, `String`, text marshaling; `TestAllISPCs` |
 | Q.708 §5.1, Figure 1 | NML and K-D together form the SANC | `SANC`, `MaxSANC`, `NewSANC`, `ParseSANC`, `ISPC.SANC`; `TestSANCVectors`, `TestAllSANCs` |
@@ -55,6 +58,11 @@ signalling functions, a routing-label codec, or a network-indicator type.
 | Q.708 §7.4; §13.4–§13.5 | Ranges 0 and 1 reserved with possible release; caution with all-zero ISPC | Type/package documentation; both ranges and zero accepted in exhaustive tests |
 
 ## Text and range policy
+
+`NetworkIndicator` uses the names `international`, `international-spare`,
+`national` and `national-reserved`. Exact lowercase parsing with no numeric
+text, invalid-value formatting and atomic decoding are package policy;
+Q.704 §14.2.2 defines the codes and their meanings only.
 
 `ISPC.String` uses the three-digit middle field shown by Q.708 §5.1.
 `ParseISPC` additionally accepts one or two middle digits; `ParseSANC` applies

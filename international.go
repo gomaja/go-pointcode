@@ -7,6 +7,8 @@ import (
 
 // ISPC is an international signalling point code: one 14-bit pure binary value
 // (Q.704 (07/96) §2.2.3, Figure 3; Q.708 (03/99) §§3.4, 5.1, Figure 1).
+// It is used in messages whose network indicator is NIInternational
+// (Q.708 §§1, 3.4).
 // Its fields are for administration and display; protocol and signalling
 // functions must treat it as a single value (Q.708 §5.2).
 // SANC ranges 0 and 1 are reserved but may be released (Q.708 §§7.4, 13.4–13.5),
